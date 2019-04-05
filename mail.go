@@ -145,7 +145,7 @@ func (mail SendMail) writeFile(buffer *bytes.Buffer, fileName string) {
 		}
 	}
 }
-func HandleMail(sender *MessageQueue){
+func HandleMail(sender *MessageQueue,config *MailConf){
 	go func(){
 		for{
 			data,_ := sender.Dequeue(0)
@@ -155,6 +155,9 @@ func HandleMail(sender *MessageQueue){
 
 			}{
 				data.(JsonMessage),
+			}
+			if (config.sstg !=0){
+				time.Sleep(time.Duration(config.sstg))
 			}
 			mail:= d.Auth
 			message:= d.Data
